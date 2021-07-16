@@ -2,14 +2,14 @@
  - name: Caprover Configuration Process
    hosts: localhost
    tasks:
-     - name: Caprover Setup in New Servers
+     - name: Caprover Setup in application
        ansible.builtin.raw:
          expect caprover-setup.exp "{{ item }}"
-       loop: "{{ groups['newservers']|flatten(levels=1) }}"
+       loop: "{{ groups['application']|flatten(levels=1) }}"
 
-     - name: Caprover Login in New Servers
+     - name: Caprover Login in application
        ansible.builtin.raw:
          expect caprover-login.exp "{{ item }}" "{{ index }}"
-       loop: "{{ groups['newservers']|flatten(levels=1) }}"
+       loop: "{{ groups['application']|flatten(levels=1) }}"
        loop_control:
          index_var: index

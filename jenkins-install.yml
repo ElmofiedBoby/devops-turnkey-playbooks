@@ -12,7 +12,7 @@
    - name: Create the app on CapRover
      ansible.builtin.raw:
        python susapi-jenkins.py jenkins http://captain.captain."{{ item }}".sslip.io
-     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
+     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
      args:
@@ -22,7 +22,7 @@
    - name: Deploy the app on Caprover
      ansible.builtin.raw:
        python jenkins-installer.py jenkins http://captain.captain."{{ item }}".sslip.io
-     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
+     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
      args:

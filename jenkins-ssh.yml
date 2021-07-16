@@ -1,4 +1,4 @@
- - hosts: application
+ - hosts: development
    tasks:
   
    - name: Change APT
