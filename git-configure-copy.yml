@@ -1,4 +1,4 @@
- - hosts: testservers
+ - hosts: application:development
    tasks:
   
    - name: copy the ssh key script to machines

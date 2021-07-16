@@ -5,7 +5,7 @@
    - name: Create the app on CapRover
      ansible.builtin.raw:
        python susapi-tomcat.py tomcat"{{ index }}" http://captain.captain."{{ item }}".sslip.io
-     loop: "{{ groups['newservers']|flatten(levels=1) }}" # change to dev group
+     loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
      args:
@@ -15,7 +15,7 @@
    - name: Setup docker image and port mapping
      ansible.builtin.raw:
        python tomcat-installer.py tomcat"{{ index }}" http://captain.captain."{{ item }}".sslip.io
-     loop: "{{ groups['newservers']|flatten(levels=1) }}" # change to dev group
+     loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
      args:

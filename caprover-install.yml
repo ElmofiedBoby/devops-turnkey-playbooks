@@ -1,6 +1,6 @@
 ---
  - name: Caprover Installation Process
-   hosts: testservers
+   hosts: application:development
 #   connection: local
    become: yes
    tasks:

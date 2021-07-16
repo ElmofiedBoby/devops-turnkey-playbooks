@@ -1,4 +1,4 @@
- - hosts: testservers
+ - hosts: application
    tasks:
   
    - name: Change APT

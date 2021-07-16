@@ -1,4 +1,4 @@
- - hosts: newservers
+ - hosts: application:development
    become: yes
    tasks:
    - name: Install Docker

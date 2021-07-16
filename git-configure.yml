@@ -1,4 +1,4 @@
- - hosts: localhost
+ - hosts: development
    tasks:
   
    - name: copy ssh keys
