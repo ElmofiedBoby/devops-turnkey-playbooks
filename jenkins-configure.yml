@@ -1,0 +1,90 @@
+ - hosts: testservers
+   tasks:
+   
+   - name: Install Java
+     become: true
+     apt:
+       name:
+       - openjdk-16-jdk
+       state: latest
+       cache_valid_time: 3600
+       allow_unauthenticated: true
+   
+   - name: Install Jenkins CLI
+     ansible.builtin.raw:  
+       wget http://localhost:8080/jnlpJars/jenkins-cli.jar
+
+   - name: Create new user
+     ansible.builtin.raw:
+       echo 'jenkins.model.Jenkins.instance.securityRealm.createAccount("newuser", "newpassword")' | java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) groovy =
+
+   - name: copy groovy script
+     copy:
+       src: /home/ubuntu/ssh-groovy
+       dest: /home/ubuntu/ssh-groovy
+ 
+   - name: copy groovy modifier script
+     copy:
+       src: /home/ubuntu/groovy-ssh-mover.py
+       dest: /home/ubuntu/groovy-ssh-mover.py
+ 
+   - name: run groovy modifier
+     ansible.builtin.raw:
+       python3 groovy-ssh-mover.py .ssh/id_rsa
+ 
+   - name: install git plugins
+     become: true
+     ansible.builtin.raw: 
+       java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) -webSocket install-plugin git
+
+   - name: install deploy plugin
+     become: true
+     ansible.builtin.raw:
+       java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) -webSocket install-plugin deploy
+
+   - name: install maven plugin
+     become: true
+     ansible.builtin.raw:
+       java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) -webSocket install-plugin maven-plugin -restart 
+  
+   - name: pause playbook to wait for restart of jenkins
+     pause:
+       seconds: 120
+   
+   - name: run modified groovy script
+     ansible.builtin.raw:
+       cat ssh-groovy | java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) groovy =
+
+   - name: copy ssh files
+     become: true
+     copy:
+       src: /home/ubuntu/.ssh/
+       dest: /var/lib/docker/volumes/captain--jenkins/_data/.ssh/
+
+   - name: copy template.xml
+     copy:
+       src: ~/template69.xml
+       dest: ~/template69.xml
+
+   - name: copy template processing script
+     copy:
+       src: ~/job_processor.py
+       dest: ~/job_processor.py
+
+   - name: edit template for each instance
+     ansible.builtin.raw:
+       python3 job_processor.py {{ inventory_hostname }} 18.208.196.121
+  
+   - name: copy tomcat credential files
+     copy:
+       src: /home/ubuntu/tomcat-groovy-creds
+       dest: /home/ubuntu/tomcat-groovy-creds
+
+   - name: add tomcat credentials to jenkins
+     ansible.builtin.raw:
+       cat tomcat-groovy-creds | java -jar jenkins-cli.jar -s "http://localhost:8080" -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) groovy =
+
+   - name: create job from generated template
+     become: true
+     ansible.builtin.raw:
+       java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:$(sudo cat /var/lib/docker/volumes/captain--jenkins/_data/secrets/initialAdminPassword) create-job {{ inventory_hostname }} < template69.xml

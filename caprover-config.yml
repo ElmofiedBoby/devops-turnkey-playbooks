@@ -1,0 +1,15 @@
+---
+ - name: Caprover Configuration Process
+   hosts: localhost
+   tasks:
+     - name: Caprover Setup in Test Servers
+       ansible.builtin.raw:
+         expect caprover-setup.exp "{{ item }}"
+       loop: "{{ groups['testservers']|flatten(levels=1) }}"
+
+     - name: Caprover Login in Test Servers
+       ansible.builtin.raw:
+         expect caprover-login.exp "{{ item }}" "{{ index }}"
+       loop: "{{ groups['testservers']|flatten(levels=1) }}"
+       loop_control:
+         index_var: index

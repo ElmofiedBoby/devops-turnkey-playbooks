@@ -1,0 +1,17 @@
+---
+- name: Making a new S3 bucket to store client keys
+  hosts: localhost
+  connection: local
+  tasks:
+    - name: Make a new bucket
+      amazon.aws.s3_bucket:
+        name: niniryjuns{{ index }}
+        state: 'present'
+      loop: "{{ groups['testservers'] }}"
+      loop_control:
+        index_var: index
+        public_access: false
+#             block_public_acls: true
+#             block_public_policy: true
+#             ignore_public_acls: true
+#             restrict_public_buckets: true

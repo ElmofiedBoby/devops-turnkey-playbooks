@@ -1,0 +1,70 @@
+ - hosts: testservers
+   tasks:
+  
+   - name: Change APT
+     become: true
+     lineinfile:
+       path: /etc/apt/sources.list
+       search_string: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+       line: deb [trusted=yes] https://download.docker.com/linux/ubuntu focal stable
+  
+   - name: Install Expect
+     become: true
+     apt:
+       name:
+       - expect
+       state: latest
+       cache_valid_time: 3600
+       allow_unauthenticated: True
+   
+   - name: Copy expect script
+     copy:  
+       src: /home/ubuntu/ssh.exp
+       dest: /home/ubuntu/ssh.exp
+
+   - name: copy second expect script
+     copy:
+       src: /home/ubuntu/ssh2.exp
+       dest: /home/ubuntu/ssh2.exp
+
+   - name: check if key already exists
+     stat:
+       path: /home/ubuntu/.ssh/id_rsa
+     register: p
+
+   - name: Run expect script
+     ansible.builtin.raw:
+       expect ssh.exp
+     when: p.stat.exists == False
+
+   - name: Run expect script 2
+     ansible.builtin.raw:
+       expect ssh2.exp
+     when: p.stat.exists
+   
+   - name: rename id_rsa.pub
+     ansible.builtin.raw:
+       mv .ssh/id_rsa.pub .ssh/{{ inventory_hostname }}.pub
+   
+   - name: upload script
+     copy:
+       src: /home/ubuntu/buckets-upload.py
+       dest: /home/ubuntu/buckets-upload.py
+
+   - name: upload keys
+     ansible.builtin.raw:
+       sudo python3 buckets-upload.py overseer-keys False /home/ubuntu/.ssh/{{ inventory_hostname }}.pub
+
+   - name: copy python script
+     copy:
+       src: ~/groovy-ssh-mover.py
+       dest: ~/groovy-ssh-mover.py
+ 
+   - name: copy groovy script
+     copy:
+       src: ~/ssh-groovy
+       dest: ~/ssh-groovy
+
+   - name: modify groovy script
+     ansible.builtin.raw:
+       sudo python3 groovy-ssh-mover.py /home/ubuntu/.ssh/id_rsa

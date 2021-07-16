@@ -1,0 +1,29 @@
+ - hosts: localhost
+   become: true
+   tasks:
+
+  # - name: Install Git via APT
+  #   apt:
+  #     name:
+  #     - git
+  #     state: latest
+  #     cache_valid_time: 3600
+   
+   - name: Create the app on CapRover
+     ansible.builtin.raw:
+       python susapi.py git True http://captain.captain."{{ item }}".sslip.io
+     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
+     loop_control:
+       index_var: index
+     args:
+       warn: false
+     ignore_errors: yes
+
+   - name: Setup docker image and port mapping
+     ansible.builtin.raw:
+       python git-installer.py git http://captain.captain."{{ item }}".sslip.io
+     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
+     loop_control:
+       index_var: index
+     args:
+       warn: false

@@ -1,0 +1,41 @@
+#!/usr/bin/expect -f
+set timeout -1
+match_max 100000
+
+# Variables!
+set IP_ADDR [lindex $argv 0];
+
+# Server Setup!
+spawn caprover serversetup
+
+sleep 3
+
+expect "server?"
+send "y\r"
+
+sleep 3
+
+expect "of your server:"
+send "$IP_ADDR\r"
+
+sleep 3
+
+expect "root domain:"
+send "http://captain.$IP_ADDR.sslip.io\r"
+
+sleep 3
+
+expect "new CapRover password (min"
+send "captain42\r"
+
+sleep 3
+
+expect "new CapRover password again"
+send "captain42\r"
+
+sleep 3
+
+expect "enable HTTPS"
+send "justin@cringe.com\r"
+
+expect eof

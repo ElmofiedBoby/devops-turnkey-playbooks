@@ -1,0 +1,8 @@
+---
+ - name: Caprover Removal Process
+   hosts: testservers
+#   connection: local
+   become: yes
+   tasks:
+   - name: Run Bash Script to remove 
+     ansible.builtin.raw: bash remove-caprover.sh

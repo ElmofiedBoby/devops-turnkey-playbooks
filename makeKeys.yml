@@ -1,0 +1,8 @@
+---
+- name: Generate a default keypair
+  hosts: localhost
+  tasks:
+   - name: Make key pair
+     community.crypto.openssh_keypair:
+          path: /home/ubuntu/testKeys/id_ssh_rsa
+

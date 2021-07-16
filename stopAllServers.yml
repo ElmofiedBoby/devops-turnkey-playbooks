@@ -1,0 +1,19 @@
+---
+- name: Stop all servers for the day
+  connection: local
+  hosts: localhost
+  tasks:
+  - name: Closing all test servers for the day
+    amazon.aws.ec2:
+        region: us-east-1
+        instance_tags: {"Ansible-Children":"test children for ansible"}
+        state: 'stopped'
+
+  - name: Closing all main servers for the day
+    amazon.aws.ec2:
+       region: us-east-1
+       instance_tags: {"Interns":"yes"}
+       state: 'stopped'
+  
+
+

@@ -1,0 +1,46 @@
+---
+- name: Launch new EC2 instance, copy public key from bucket to authorized_keys in instance, add instance as a child
+  hosts: localhost
+  connection: local 
+  gather_facts: true
+  vars:
+     servername: coupleEC2    #a vari
+     clientname: topClient1
+     h1: ' ansible_host'
+     instanceType: t2.micro
+     keyName: master-server-key
+     imageID: ami-09e67e426f25ce0d7
+     regionID: us-east-1
+     groupID: default
+     countID: 1
+     vpcSubnetId: subnet-43206762     
+  tasks:
+  - name: Launch new EC2 instance
+    ec2:
+       instance_type: "{{ instanceType }}"     
+       key_name: "{{ keyName }}"             
+       image: "{{ imageID }}"  
+       region: "{{ regionID }}"          
+       group: "{{ groupID }}"     
+       count: "{{ countID }}"                    
+       wait: yes
+       vpc_subnet_id: "{{ vpcSubnetId }}"
+       assign_public_ip: yes
+       instance_tags:                  #variable, let user put in
+             Name: appZ
+             ServerGroup: 'testservers'
+       volumes:                        #variable, let user put in
+            - device_name: /dev/xvda
+              volume_type: gp2
+              volume_size: 8
+              delete_on_termination: yes
+    register: ec2_results
+     
+  - name: Add ssh agent
+    ansible.builtin.raw:
+      ssh-add ~/.ssh/master-server-key.pem
+
+  #- name: finish adding ssh agent
+  #  ansible.builtin.raw:
+  #    ssh-add ~/.ssh/master-server-key.pem
+

@@ -1,0 +1,33 @@
+---
+ - name: Caprover Installation Process
+   hosts: newservers
+#   connection: local
+   become: yes
+   tasks:
+   - name: Disabiling Firewall on Ubuntu
+     ansible.builtin.raw: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+   
+   - name: Install Caprover
+     ansible.builtin.raw: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
+   
+   - name: Alert of finishing install
+     ansible.builtin.debug:
+       msg: based
+   
+   - name: Wait for Caprover to start
+     ansible.builtin.wait_for:
+       timeout: 90
+ 
+#   - name: Configure Caprover Get Root Access
+#     ansible.builtin.raw: sudo -i 
+
+   - name: Configure Caprover Change Caprover Config
+     ansible.builtin.raw: echo  "{\"skipVerifyingDomains\":\"true\"}" >  /captain/data/config-override.json
+
+#   - name: Configure Caprover Exit Root Access
+#     ansible.builtin.raw: exit
+
+   - name: Restart Caprover Service
+     ansible.builtin.raw: docker service update captain-captain --force
+     
+

@@ -1,0 +1,27 @@
+#!/usr/bin/expect -f
+set timeout -1
+match_max 100000
+
+# Variables!
+set IP_ADDR [lindex $argv 0];
+set RANDOM [lindex $argv 1];
+
+# Server Login
+spawn caprover login
+
+sleep 3
+
+expect "machine URL address, it is"
+send "http://captain.captain.$IP_ADDR.sslip.io\r"
+
+sleep 3
+
+expect "machine password:"
+send "captain42\r"
+
+sleep 3
+
+expect "stored locally:"
+send "app$RANDOM\r"
+
+expect eof

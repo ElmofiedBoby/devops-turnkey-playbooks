@@ -1,0 +1,10 @@
+ - hosts: localhost
+   tasks:
+  
+   - name: copy ssh keys
+     ansible.builtin.raw:
+       ssh ubuntu@{{ item }} 'sudo python3 buckets.py niniryjuns{{ index }}'
+     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
+     loop_control:
+       index_var: index
+ 

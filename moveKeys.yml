@@ -1,0 +1,11 @@
+---
+- name: Moves the user's public key to S3 Bucket
+  hosts: localhost
+  connection: local
+  tasks:
+     - name: Move from folder to bucket
+       amazon.aws.aws_s3:
+          bucket: nsikan1
+          object: /ourkey/id_ssh_rsa.pub
+          src: /home/ubuntu/testKeys/id_ssh_rsa.pub
+          mode: put

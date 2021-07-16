@@ -1,0 +1,14 @@
+---
+- name: Make an ssh agent on ansible master 
+  hosts: localhost
+  vars:
+    keyname: yourKeyName
+    keypath: ~/.ssh/
+    ending: .pem
+  tasks:
+    - name: Run agent
+      ansible.builtin.raw: ssh-agent bash
+   
+    - name: Add key
+      ansible.builtin.raw: ssh-add "{{ keyname + keypath + ending }}"
+

@@ -1,0 +1,14 @@
+---
+ - name: Caprover Removal Process
+   hosts: newservers
+#   connection: local
+   become: yes
+   tasks:
+   
+   - name: Copy bash script to new servers
+     ansible.builtin.copy:
+        src: /home/ubuntu/remove-caprover.sh
+        dest: /home/ubuntu
+    
+   - name: Run Bash Script to remove 
+     ansible.builtin.raw: bash remove-caprover.sh

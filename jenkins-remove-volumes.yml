@@ -1,0 +1,9 @@
+ - hosts: testservers
+   become: true
+   tasks:
+
+   - name: jenkins uninstaller
+     ansible.builtin.raw:
+       docker volume rm captain--jenkins
+     args:
+       warn: false

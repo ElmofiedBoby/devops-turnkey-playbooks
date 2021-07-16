@@ -1,0 +1,27 @@
+ - hosts: testservers
+   tasks:
+  
+   - name: copy the ssh key script to machines
+     copy:
+       src: ~/buckets.py
+       dest: ~/buckets.py
+   
+   - name: install pip3
+     become: yes
+     apt:
+       name:
+       - python3-pip
+       state: latest
+       cache_valid_time: 3600
+       allow_unauthenticated: True  
+
+   - name: install dependencies
+     become: yes
+     ansible.builtin.raw:
+       pip3 install boto3
+   
+   - name: copy boto3 credentials
+     become: yes
+     copy:
+       src: ~/.boto
+       dest: ~/.boto

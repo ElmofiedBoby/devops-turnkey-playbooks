@@ -1,0 +1,47 @@
+ - hosts: localhost
+   vars:
+     r3sults: []
+   tasks:
+
+   - name: get list of buckets
+     aws_s3_bucket_info:
+     register:
+       s3_bucket_info
+  
+   - name: get list of keys
+     amazon.aws.aws_s3:
+       bucket: niniryjuns{{ index }}
+       mode: list
+     register:
+       s3_key_info
+     loop: "{{ groups['testservers']|flatten(levels=1) }}"
+     loop_control:
+       index_var: index
+     
+   - name: print
+     ansible.builtin.debug:
+       msg: "{{ s3_bucket_info['buckets'] }}"
+
+   - name: basedd
+     ansible.builtin.debug:
+       msg: "{{ nextitem }}"
+     loop: "{{ s3_key_info['results'] }}"
+     loop_control:
+       extended: yes
+       index_var: nextitem
+
+   - name: basedd
+     set_fact:
+       r3sults: "{{ r3sults }} + {{ item['s3_keys'] }}"
+     loop: "{{ s3_key_info['results'] }}"
+     loop_control:
+       extended: yes
+       index_var: index
+
+   - local_action: 
+       module: copy 
+       content: "{{ r3sults }}"
+       dest: /home/ubuntu/log.output
+     loop: "{{ s3_key_info['results'] }}"
+     loop_control:
+       index_var: index

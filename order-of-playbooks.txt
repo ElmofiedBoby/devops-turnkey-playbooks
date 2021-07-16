@@ -1,0 +1,11 @@
+1. docker-install.yml (included in nuke)
+2. nuke (caprover-remove.yml && caprover-install.yml)
+3. caprover-config.yml (remember to remove already logged in machines on overseer)
+4. git-install.yml
+5. git-configure.yml
+6. git-create-repository.yml
+7. jenkins-install.yml
+8. jenkins-ssh.yml
+9. git-configure.yml (yes, again)
+10. jenkins-configure.yml
+11. tomcat-install.yml

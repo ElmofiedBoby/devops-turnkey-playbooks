@@ -1,0 +1,7 @@
+ - hosts: localhost
+   tasks:
+  
+   - name: create repositories
+     ansible.builtin.raw:
+       ssh -o StrictHostKeyChecking=no git@{{ item }} -p 2222 'create-repository origin'
+     loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
