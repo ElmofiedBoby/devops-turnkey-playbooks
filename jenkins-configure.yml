@@ -73,7 +73,7 @@
 
    - name: edit template for each instance
      ansible.builtin.raw:
-       python3 job_processor.py {{ inventory_hostname }} 18.208.196.121
+       python3 job_processor.py {{ inventory_hostname }} {{ groups['application'][0] }}
   
    - name: copy tomcat credential files
      copy:

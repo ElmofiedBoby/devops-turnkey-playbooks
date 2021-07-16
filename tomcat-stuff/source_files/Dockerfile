@@ -1,4 +1,5 @@
 FROM tomcat
+LABEL maintainer="@elmofiedboby"
 COPY tomcat-users.xml /usr/local/tomcat/conf
 RUN cp -r /usr/local/tomcat/webapps.dist/ROOT /usr/local/tomcat/webapps
 RUN cp -r /usr/local/tomcat/webapps.dist/host-manager /usr/local/tomcat/webapps

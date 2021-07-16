@@ -13,11 +13,7 @@ cap = caprover_api.CaproverAPI(
     password="captain42"
 )
 
-cap.create_app(
+cap.deploy_app(
    app_name=sys.argv[1],
-   has_persistent_data=False
-)
-
-cap.update_app(
    image_name='elmofiedboby/tomcat-basecamp:latest'
 )
