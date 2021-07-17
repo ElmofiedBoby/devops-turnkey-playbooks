@@ -24,8 +24,8 @@
        group: "{{ groupID }}"     
        count: "{{ countID }}"                    
        wait: yes
-       vpc_subnet_id: "{{ vpcSubnetId }}"
-       assign_public_ip: yes
+      # vpc_subnet_id: "{{ vpcSubnetId }}"
+      # assign_public_ip: yes
        instance_tags:                  #variable, let user put in
              Name: appZ
              ServerGroup: 'testservers'
