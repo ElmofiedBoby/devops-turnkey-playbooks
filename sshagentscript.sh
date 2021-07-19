@@ -1,2 +1,3 @@
 #!/bin/bash
-ssh-agent bash && ssh-add ~/.ssh/niniryju
+eval `ssh-agent`
+ssh-add ~/.ssh/niniryju
