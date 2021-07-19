@@ -1,4 +1,6 @@
 #!/bin/bash
+bash sshagentscript.sh
+sleep 5s
 bash caprover-installer.sh
 sleep 5s
 bash git-installer.sh
