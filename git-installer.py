@@ -1,4 +1,4 @@
-from caprover_api.caprover_api import caprover_api
+from caprover_api import caprover_api
 import importlib
 import sys
 
