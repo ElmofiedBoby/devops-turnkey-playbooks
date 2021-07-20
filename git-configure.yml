@@ -1,14 +1,17 @@
- - hosts: localhost
+ - hosts: development
    tasks:
-  
-   - name: copy ssh keys
+
+   - name: copy script
+     copy:
+       src: ~/devops-turnkey-playbooks/buckets.py
+       dest: ~/buckets.py
+
+   - name: run script
+     become: true
      ansible.builtin.raw:
-       ssh ubuntu@{{ item }} 'sudo python3 buckets.py niniryjuns{{ index }}'
-     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
-     loop_control:
-       index_var: index
+       python3 buckets.py niniryjuns
 
    - name: copy overseer key
+     become: true
      ansible.builtin.raw:
-       ssh ubuntu@{{ item }} 'sudo python3 buckets.py overseer-keys'
-     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
+       python3 buckets.py overseer-keys
