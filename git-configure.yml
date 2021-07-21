@@ -1,14 +1,26 @@
- - hosts: localhost
+ - hosts: development
    tasks:
-  
-   - name: copy ssh keys
+
+   - name: copy script
+     copy:
+       src: ~/devops-turnkey-playbooks/buckets.py
+       dest: ~/buckets.py
+
+   - name: copy bash script
+       src: ~/devops-turnkey-playbooks/bucketScript.sh
+       dest: ~/bucketScript.sh
+
+   - name: install boto3
+     become: true
      ansible.builtin.raw:
-       ssh ubuntu@{{ item }} 'sudo python3 buckets.py niniryjuns{{ index }}'
-     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
-     loop_control:
-       index_var: index
+       pip3 install boto3
+
+   - name: run script
+     become: true
+     ansible.builtin.raw:
+       bash bucketScript.sh niniryjuns {{ awskeyid }} {{ awskey }}
 
    - name: copy overseer key
+     become: true
      ansible.builtin.raw:
-       ssh ubuntu@{{ item }} 'sudo python3 buckets.py overseer-keys'
-     loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
+       bash bucketScript.sh overseer-keys {{ awskeyid }} {{ awskey }}

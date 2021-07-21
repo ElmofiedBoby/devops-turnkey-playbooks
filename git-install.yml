@@ -11,7 +11,7 @@
    
    - name: Create the app on CapRover
      ansible.builtin.raw:
-       python susapi.py git True http://captain.captain."{{ item }}".sslip.io
+       python3 susapi.py git True http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
@@ -21,7 +21,7 @@
 
    - name: Setup docker image and port mapping
      ansible.builtin.raw:
-       python git-installer.py git http://captain.captain."{{ item }}".sslip.io
+       python3 git-installer.py git http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
