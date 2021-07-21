@@ -2,6 +2,8 @@
 #Given a list of textfiles containing strings (SSH keys), add it into the authorized_keys file
 
 import sys
+'''
+import sys
 import logging
 import boto3
 from botocore.exceptions import ClientError
@@ -12,6 +14,7 @@ from botocore.exceptions import ClientError
 
 #Command line call: python bukit.py fileToRead fileToWrite(Needs to be a path
 keyList = []
+pubKey = ""
 
 #method that looks up the team's bucket name, sifts through their s3 files, and finds their public keys
 def lookUp(NameOfBucket):
@@ -57,9 +60,27 @@ def lookUp(NameOfBucket):
             
             #since we don't care about the other buckets after we find the team's, break the loop    
             break                 
+'''
 
+pubKey = ""
 
-
+def getFromFile():
+   try:
+       #open the public key on dev server for reading
+       pubFile = open("~/.ssh/id_rsa.pub", "r")
+       
+       #store the public key contents to pubKey
+       pubKey = pubFile.readline()
+   
+       #strip it just incase
+       pubKey = pubKey.strip()
+       
+       pubFile.close()
+   except FileNotFoundError:
+       print("Wrong file or file path. Please try again.")
+    
+#   return pubKey
+    
 #writes the public keys to the authorized keys file
 def writeToFile():
     try:
@@ -72,17 +93,31 @@ def writeToFile():
     except FileNotFoundError:
         print("Wrong file or file path")
         
-    authorizedFile.close()
-    
+#    authorizedFile.close()
+
+def writeToFile2():
+    try:
+        authorizedFile = open("/var/lib/docker/volumes/captain--githome/_data/.ssh/authorized_keys", "a")
+
+	#write pub key to authorized keys file
+        authorizedFile.write("\n" + pubKey)
+        
+        authorizedFile.close()
+    except FileNotFoundError:
+        print("Wrong file or file path")
+
 def main():
     
     #get bucketname from user
     bucketName = sys.argv[1]
     
     #get the keys and store key contents in keyList    
-    lookUp(bucketName)
-        
+   # lookUp(bucketName)
+       
+    #get key from file
+    getFromFile()   
+ 
     #append keys to end of authorized keys file
-    writeToFile()
+    writeToFile2()
 
 main()
