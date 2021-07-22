@@ -51,6 +51,7 @@
        mv .ssh/id_rsa.pub .ssh/{{ inventory_hostname }}.pub
 
    - name: upload keys
+     become: true
      ansible.builtin.raw:
        python3 buckets.py /home/ubuntu/.ssh/{{ inventory_hostname }}.pub
 
