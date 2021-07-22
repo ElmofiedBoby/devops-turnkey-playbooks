@@ -69,7 +69,7 @@ def getFromFile():
    pubKey = ""
    try:
        #open the public key on dev server for reading
-       pubFile = open('/home/ubuntu/.ssh/id_rsa.pub', 'r')
+       pubFile = open(sys.argv[1], 'r')
        
        #store the public key contents to pubKey
        pubKey = pubFile.read()

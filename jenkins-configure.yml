@@ -20,12 +20,12 @@
 
    - name: copy groovy script
      copy:
-       src: /home/ubuntu/ssh-groovy
+       src: /home/ubuntu/devops-turnkey-playbooks/ssh-groovy
        dest: /home/ubuntu/ssh-groovy
  
    - name: copy groovy modifier script
      copy:
-       src: /home/ubuntu/groovy-ssh-mover.py
+       src: /home/ubuntu/devops-turnkey-playbooks/groovy-ssh-mover.py
        dest: /home/ubuntu/groovy-ssh-mover.py
  
    - name: run groovy modifier
@@ -63,12 +63,12 @@
 
    - name: copy template.xml
      copy:
-       src: ~/template69.xml
+       src: ~/devops-turnkey-playbooks/template69.xml
        dest: ~/template69.xml
 
    - name: copy template processing script
      copy:
-       src: ~/job_processor.py
+       src: ~/devops-turnkey-playbooks/job_processor.py
        dest: ~/job_processor.py
 
    - name: edit template for each instance
@@ -77,7 +77,7 @@
   
    - name: copy tomcat credential files
      copy:
-       src: /home/ubuntu/tomcat-groovy-creds
+       src: /home/ubuntu/devops-turnkey-playbooks/tomcat-groovy-creds
        dest: /home/ubuntu/tomcat-groovy-creds
 
    - name: add tomcat credentials to jenkins

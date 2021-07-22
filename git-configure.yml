@@ -9,4 +9,4 @@
    - name: run script
      become: true
      ansible.builtin.raw:
-       python3 buckets.py
+       python3 buckets.py /home/ubuntu/.ssh/id_rsa.pub

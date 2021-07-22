@@ -19,13 +19,17 @@
    
    - name: Copy expect script
      copy:  
-       src: /home/ubuntu/ssh.exp
+       src: /home/ubuntu/devops-turnkey-playbooks/ssh.exp
        dest: /home/ubuntu/ssh.exp
 
    - name: copy second expect script
      copy:
-       src: /home/ubuntu/ssh2.exp
+       src: /home/ubuntu/devops-turnkey-playbooks/ssh2.exp
        dest: /home/ubuntu/ssh2.exp
+
+   - name: rename existing id_rsa
+     ansible.builtin.raw:
+       mv /home/ubuntu/.ssh/id_rsa.pub /home/ubuntu/.ssh/user.pub
 
    - name: check if key already exists
      stat:
@@ -45,24 +49,19 @@
    - name: rename id_rsa.pub
      ansible.builtin.raw:
        mv .ssh/id_rsa.pub .ssh/{{ inventory_hostname }}.pub
-   
-   - name: upload script
-     copy:
-       src: /home/ubuntu/buckets-upload.py
-       dest: /home/ubuntu/buckets-upload.py
 
    - name: upload keys
      ansible.builtin.raw:
-       sudo python3 buckets-upload.py overseer-keys False /home/ubuntu/.ssh/{{ inventory_hostname }}.pub
+       python3 buckets.py /home/ubuntu/.ssh/{{ inventory_hostname }}.pub
 
    - name: copy python script
      copy:
-       src: ~/groovy-ssh-mover.py
+       src: ~/devops-turnkey-playbooks/groovy-ssh-mover.py
        dest: ~/groovy-ssh-mover.py
  
    - name: copy groovy script
      copy:
-       src: ~/ssh-groovy
+       src: ~/devops-turnkey-playbooks/ssh-groovy
        dest: ~/ssh-groovy
 
    - name: modify groovy script
