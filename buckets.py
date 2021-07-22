@@ -118,7 +118,7 @@ def main():
    # lookUp(bucketName)
        
     #get key from file
-    getFromFile()   
+    #getFromFile()   
  
     #append keys to end of authorized keys file
     writeToFile2()
