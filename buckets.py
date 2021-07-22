@@ -70,16 +70,16 @@ def getFromFile():
        pubFile = open("~/.ssh/id_rsa.pub", "r")
        
        #store the public key contents to pubKey
-       pubKey = pubFile.readline()
+       pubKey = pubFile.read()
    
        #strip it just incase
-       pubKey = pubKey.strip()
+       #pubKey = pubKey.strip()
        
        pubFile.close()
    except FileNotFoundError:
        print("Wrong file or file path. Please try again.")
     
-#   return pubKey
+   return pubKey
     
 #writes the public keys to the authorized keys file
 def writeToFile():
@@ -100,7 +100,7 @@ def writeToFile2():
         authorizedFile = open("/var/lib/docker/volumes/captain--githome/_data/.ssh/authorized_keys", "a")
 
 	#write pub key to authorized keys file
-        authorizedFile.write("\n" + pubKey)
+        authorizedFile.write(getFromFile())
         
         authorizedFile.close()
     except FileNotFoundError:
@@ -115,7 +115,7 @@ def main():
    # lookUp(bucketName)
        
     #get key from file
-    getFromFile()   
+   # getFromFile()   
  
     #append keys to end of authorized keys file
     writeToFile2()
