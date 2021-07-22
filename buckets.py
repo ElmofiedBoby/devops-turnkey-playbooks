@@ -109,7 +109,7 @@ def writeToFile2():
 def main():
     
     #get bucketname from user
-    bucketName = sys.argv[1]
+#    bucketName = sys.argv[1]
     
     #get the keys and store key contents in keyList    
    # lookUp(bucketName)
