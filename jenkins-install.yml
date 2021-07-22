@@ -11,7 +11,7 @@
    
    - name: Create the app on CapRover
      ansible.builtin.raw:
-       python susapi-jenkins.py jenkins http://"{{ item }}":3000
+       python3 susapi-jenkins.py jenkins http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
@@ -21,7 +21,7 @@
    
    - name: Deploy the app on Caprover
      ansible.builtin.raw:
-       python jenkins-installer.py jenkins http://"{{ item }}":3000
+       python3 jenkins-installer.py jenkins http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
