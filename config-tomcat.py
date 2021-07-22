@@ -17,3 +17,8 @@ cap.deploy_app(
    app_name=sys.argv[1],
    image_name='elmofiedboby/tomcat-basecamp:latest'
 )
+
+cap.update_app(
+    app_name=sys.argv[1],
+    port_mapping="8888:8080"
+)
