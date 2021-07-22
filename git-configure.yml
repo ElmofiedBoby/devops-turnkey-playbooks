@@ -7,5 +7,6 @@
        dest: ~/buckets.py
 
    - name: run script
+     become: true
      ansible.builtin.raw:
        python3 buckets.py
