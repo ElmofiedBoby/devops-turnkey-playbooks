@@ -10,7 +10,7 @@
      - name: caprover setup in test servers dev
        ansible.builtin.raw:
          expect caprover-setup.exp "{{ item }}"
-       loop: "{{ groups['development']|flatten(levels=1 }}"
+       loop: "{{ groups['development']|flatten(levels=1) }}"
 
 #     - name: Caprover Login in Test Servers dev
 #       ansible.builtin.raw:
