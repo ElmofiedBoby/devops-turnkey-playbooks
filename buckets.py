@@ -61,30 +61,33 @@ def lookUp(NameOfBucket):
             #since we don't care about the other buckets after we find the team's, break the loop    
             break                 
 '''
+import traceback
 
-pubKey = ""
+#pubKey = ""
 
 def getFromFile():
+   pubKey = ""
    try:
        #open the public key on dev server for reading
-       pubFile = open("~/.ssh/id_rsa.pub", "r")
+       pubFile = open('/home/ubuntu/.ssh/id_rsa.pub', 'r')
        
        #store the public key contents to pubKey
        pubKey = pubFile.read()
-   
+#       print("heyas: " + pubKey)
        #strip it just incase
        #pubKey = pubKey.strip()
        
        pubFile.close()
    except FileNotFoundError:
        print("Wrong file or file path. Please try again.")
+       traceback.print_exc()
     
    return pubKey
     
 #writes the public keys to the authorized keys file
 def writeToFile():
     try:
-        authorizedFile = open("/var/lib/docker/volumes/captain--githome/_data/.ssh/authorized_keys", "a")
+        authorizedFile = open('/var/lib/docker/volumes/captain--githome/_data/.ssh/authorized_keys', 'a')
         
         authorizedFile.write('\n')
         for key in keyList:
@@ -115,7 +118,7 @@ def main():
    # lookUp(bucketName)
        
     #get key from file
-   # getFromFile()   
+    getFromFile()   
  
     #append keys to end of authorized keys file
     writeToFile2()
