@@ -30,7 +30,7 @@
  
    - name: run groovy modifier
      raw:
-       python3 groovy-ssh-mover.py .ssh/id_rsa
+       python3 groovy-ssh-mover.py /home/ubuntu/.ssh/id_rsa
  
    - name: install git plugins
      become: true

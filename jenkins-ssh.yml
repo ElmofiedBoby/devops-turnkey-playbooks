@@ -1,12 +1,12 @@
  - hosts: development
    tasks:
   
-   - name: Change APT
-     become: true
-     lineinfile:
-       path: /etc/apt/sources.list
-       search_string: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
-       line: deb [trusted=yes] https://download.docker.com/linux/ubuntu focal stable
+   #- name: Change APT
+   #  become: true
+   #  lineinfile:
+   #    path: /etc/apt/sources.list
+   #    search_string: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable'
+   #    line: deb [trusted=yes] https://download.docker.com/linux/ubuntu focal stable
   
    - name: Install Expect
      become: true

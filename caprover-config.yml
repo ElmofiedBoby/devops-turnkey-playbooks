@@ -4,10 +4,9 @@
    tasks:
      - name: install expect
        apt:
-       name:
-       - expect
-       state: latest
-       cache_valid_time: 3600
+         name:
+         - expect
+         cache_valid_time: 3600
 
      - name: Caprover Setup in Test Servers app
        raw:
