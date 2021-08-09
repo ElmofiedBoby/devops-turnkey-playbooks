@@ -4,12 +4,12 @@
    become: yes
    tasks:
    - name: Disabiling Firewall on Ubuntu
-     ansible.builtin.raw: 
-       raw: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+     ansible.builtin.command: 
+       cmd: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
    
    - name: Install Caprover
-     ansible.builtin.raw:
-       raw: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
+     ansible.builtin.command:
+       cmd: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
    
    - name: Alert of finishing install
      ansible.builtin.debug:
@@ -20,11 +20,11 @@
        timeout: 90
 
    - name: Configure Caprover Change Caprover Config
-     ansible.builtin.raw:
-       raw: echo  "{\"skipVerifyingDomains\":\"true\"}" >  /captain/data/config-override.json
+     ansible.builtin.command:
+       cmd: echo  "{\"skipVerifyingDomains\":\"true\"}" >  /captain/data/config-override.json
 
    - name: Restart Caprover Service
-     ansible.builtin.raw:
-       raw: docker service update captain-captain --force
+     ansible.builtin.command:
+       cmd: docker service update captain-captain --force
      
 
