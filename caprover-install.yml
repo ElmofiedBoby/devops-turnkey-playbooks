@@ -4,7 +4,8 @@
    become: yes
    tasks:
    - name: Disabiling Firewall on Ubuntu
-     ansible.builtin.shell: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+     ansible.builtin.raw: 
+       command: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
    
    - name: Install Caprover
      ansible.builtin.raw: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
