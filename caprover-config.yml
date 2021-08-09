@@ -2,6 +2,13 @@
  - name: Caprover Configuration Process
    hosts: localhost
    tasks:
+     - name: install expect
+       apt:
+       name:
+       - expect
+       state: latest
+       cache_valid_time: 3600
+
      - name: Caprover Setup in Test Servers app
        raw:
          expect caprover-setup.exp "{{ item }}"
