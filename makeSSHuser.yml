@@ -7,8 +7,8 @@
     ending: .pem
   tasks:
     - name: Run agent
-      ansible.builtin.raw: ssh-agent bash
+      raw: ssh-agent bash
    
     - name: Add key
-      ansible.builtin.raw: ssh-add "{{ keyname + keypath + ending }}"
+      raw: ssh-add "{{ keyname + keypath + ending }}"
 

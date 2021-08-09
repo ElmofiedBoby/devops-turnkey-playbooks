@@ -3,7 +3,7 @@
    tasks:
    
    - name: Create the app on CapRover
-     ansible.builtin.raw:
+     raw:
        python susapi-tomcat.py tomcat http://"{{ item }}":3000
      loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:
@@ -13,7 +13,7 @@
      ignore_errors: yes
 
    - name: Setup docker image and port mapping
-     ansible.builtin.raw:
+     raw:
        python config-tomcat.py tomcat http://"{{ item }}":3000
      loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:

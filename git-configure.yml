@@ -8,5 +8,5 @@
 
    - name: run script
      become: true
-     ansible.builtin.raw:
+     raw:
        python3 buckets.py /home/ubuntu/.ssh/id_rsa.pub

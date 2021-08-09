@@ -10,7 +10,7 @@
   #     cache_valid_time: 3600
    
    - name: Create the app on CapRover
-     ansible.builtin.raw:
+     raw:
        python3 susapi.py git True http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
@@ -20,7 +20,7 @@
      ignore_errors: yes
 
    - name: Setup docker image and port mapping
-     ansible.builtin.raw:
+     raw:
        python3 git-installer.py git http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:

@@ -10,7 +10,7 @@
   #     cache_valid_time: 3600
    
    - name: Create the app on CapRover
-     ansible.builtin.raw:
+     raw:
        python3 susapi-jenkins.py jenkins http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:
@@ -20,7 +20,7 @@
      ignore_errors: yes
    
    - name: Deploy the app on Caprover
-     ansible.builtin.raw:
+     raw:
        python3 jenkins-installer.py jenkins http://"{{ item }}":3000
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group
      loop_control:

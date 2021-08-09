@@ -2,6 +2,6 @@
    tasks:
   
    - name: create repositories
-     ansible.builtin.raw:
+     raw:
        ssh -o StrictHostKeyChecking=no git@{{ item }} -p 2222 'create-repository origin'
      loop: "{{ groups['development']|flatten(levels=1) }}" # change to dev group

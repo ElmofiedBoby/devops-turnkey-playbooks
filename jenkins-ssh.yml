@@ -28,7 +28,7 @@
        dest: /home/ubuntu/ssh2.exp
 
    - name: rename existing id_rsa
-     ansible.builtin.raw:
+     raw:
        mv /home/ubuntu/.ssh/id_rsa.pub /home/ubuntu/.ssh/user.pub
 
    - name: check if key already exists
@@ -37,22 +37,22 @@
      register: p
 
    - name: Run expect script
-     ansible.builtin.raw:
+     raw:
        expect ssh.exp
      when: p.stat.exists == False
 
    - name: Run expect script 2
-     ansible.builtin.raw:
+     raw:
        expect ssh2.exp
      when: p.stat.exists
    
    - name: rename id_rsa.pub
-     ansible.builtin.raw:
+     raw:
        mv .ssh/id_rsa.pub .ssh/{{ inventory_hostname }}.pub
 
    - name: upload keys
      become: true
-     ansible.builtin.raw:
+     raw:
        python3 buckets.py /home/ubuntu/.ssh/{{ inventory_hostname }}.pub
 
    - name: copy python script
@@ -66,5 +66,5 @@
        dest: ~/ssh-groovy
 
    - name: modify groovy script
-     ansible.builtin.raw:
+     raw:
        sudo python3 groovy-ssh-mover.py /home/ubuntu/.ssh/id_rsa

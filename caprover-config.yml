@@ -3,12 +3,12 @@
    hosts: localhost
    tasks:
      - name: Caprover Setup in Test Servers app
-       ansible.builtin.raw:
+       raw:
          expect caprover-setup.exp "{{ item }}"
        loop: "{{ groups['application']|flatten(levels=1) }}"
  
      - name: caprover setup in test servers dev
-       ansible.builtin.raw:
+       raw:
          expect caprover-setup.exp "{{ item }}"
        loop: "{{ groups['development']|flatten(levels=1) }}"
 

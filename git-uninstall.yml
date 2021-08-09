@@ -3,7 +3,7 @@
    tasks:
 
    - name: Git uninstaller
-     ansible.builtin.raw:
+     raw:
        python git-uninstaller.py git"{{ index }}" http://captain.captain."{{ item }}".sslip.io
      loop: "{{ groups['testservers']|flatten(levels=1) }}" # change to dev group
      loop_control:
