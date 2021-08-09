@@ -9,8 +9,7 @@
        executable: /bin/bash
    
    - name: Install Caprover
-     ansible.builtin.command:
-       cmd: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
+     raw: docker run -e MAIN_NODE_IP_ADDRESS=127.0.0.1 -p 80:80 -p 443:443 -p 3000:3000 -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover 
    
    - name: Alert of finishing install
      ansible.builtin.debug:
@@ -21,11 +20,9 @@
        timeout: 90
 
    - name: Configure Caprover Change Caprover Config
-     ansible.builtin.command:
-       cmd: echo  "{\"skipVerifyingDomains\":\"true\"}" >  /captain/data/config-override.json
+     raw: echo  "{\"skipVerifyingDomains\":\"true\"}" >  /captain/data/config-override.json
 
    - name: Restart Caprover Service
-     ansible.builtin.command:
-       cmd: docker service update captain-captain --force
+     raw: docker service update captain-captain --force
      
 
