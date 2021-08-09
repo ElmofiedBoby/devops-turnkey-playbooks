@@ -4,8 +4,9 @@
    become: yes
    tasks:
    - name: Disabiling Firewall on Ubuntu
-     ansible.builtin.command: 
-       cmd: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+     raw: ufw allow 80,443,3000,996,7946,4789,2377/tcp; ufw allow 7946,4789,2377/udp;
+     args:
+       executable: /bin/bash
    
    - name: Install Caprover
      ansible.builtin.command:
