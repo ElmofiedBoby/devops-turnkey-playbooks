@@ -4,7 +4,7 @@
    
    - name: Create the app on CapRover
      raw:
-       python susapi-tomcat.py tomcat http://"{{ item }}":3000
+       python3 susapi-tomcat.py tomcat http://"{{ item }}":3000
      loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
@@ -14,7 +14,7 @@
 
    - name: Setup docker image and port mapping
      raw:
-       python config-tomcat.py tomcat http://"{{ item }}":3000
+       python3 config-tomcat.py tomcat http://"{{ item }}":3000
      loop: "{{ groups['application']|flatten(levels=1) }}" # change to dev group
      loop_control:
        index_var: index
